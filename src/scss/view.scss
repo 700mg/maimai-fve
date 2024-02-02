@@ -1,0 +1,517 @@
+body {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    background-image: repeating-linear-gradient(to right, #eee, #eee 1px, transparent 1px, transparent);
+    background-size: 10px 10px;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 520px !important;
+}
+
+h2.label {
+    background-color: hsla(0, 0%, 100%, 0.5);
+    border-left: 5px solid #adaaaa;
+    margin-bottom: 1rem;
+    margin-left: calc(0.5rem - 5px);
+    padding-left: 0.5rem;
+}
+
+span.rating_value {
+    font-size: 0.8rem;
+    font-weight: normal;
+}
+
+.score_box {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    background-image: -webkit-linear-gradient(transparent 0%, rgba(255, 255, 255, .3) 50%, transparent 50%, rgba(0, 0, 0, .1) 100%);
+    background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, .3) 50%, transparent 50%, rgba(0, 0, 0, .1) 100%);
+    box-shadow: 0 2px 2px 0 rgba(255, 255, 255, .2) inset,
+        0 2px 10px 0 rgba(255, 255, 255, .5) inset,
+        0 -2px 2px 0 rgba(0, 0, 0, .1) inset;
+    border: 1px solid rgba(0, 0, 0, .2);
+
+
+    &.score_won {
+        background-color: #50e350;
+    }
+
+    &.score_lose {
+        background-color: #ff4061;
+    }
+
+    &.score_draw {
+        background-color: #d3d3d3;
+    }
+
+    // 難易度やLv等を表示するとこ
+    .score_box_header {
+        display: flex;
+        align-items: center;
+
+        &>div {
+            line-height: 1rem;
+            display: inline-block;
+            padding: 0 1rem 0 0.5rem;
+            clip-path: polygon(0% 0%, 80% 0%, 100% 100%, 0% 100%);
+            position: relative;
+            z-index: 49;
+            background-color: #333;
+            min-width: 2rem;
+            color: black;
+            font-size: 0.75rem;
+            vertical-align: bottom;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            text-shadow: 0 1px 2px #000;
+
+            &::before {
+                background-color: white;
+                display: inline-block;
+                content: "";
+                position: absolute;
+                clip-path: polygon(0% 0%, 80% 0%, 100% 100%, 0% 100%);
+                width: 105%;
+                height: 1rem;
+                left: 0;
+                bottom: -1px;
+                z-index: -1;
+                transform: scale(0.95);
+                border-radius: 5px 5px 0 0;
+            }
+        }
+
+        // 難易度区分
+        .score_box_header_difficult {
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+
+            &.difficult_basic::before {
+                background-color: #6fd43d !important;
+            }
+
+            &.difficult_advanced::before {
+                background-color: #f8b709 !important;
+            }
+
+            &.difficult_expert::before {
+                background-color: #ff818d !important;
+            }
+
+            &.difficult_master::before {
+                background-color: #9f51dc !important;
+            }
+
+            &.difficult_remaster::before {
+                background-color: #da5aff !important;
+            }
+
+            &.difficult_utage::before {
+                background-color: #d00bb1 !important;
+            }
+
+        }
+
+        // Lv
+        div.score_box_header_level {
+            color: #fff !important;
+            text-shadow: 0 1px 2px #fff !important;
+
+            &::before {
+                background-color: #313131 !important;
+            }
+        }
+
+        // 譜面区分
+        div.score_box_header_kind {
+            text-align: center !important;
+            color: #fff !important;
+            font-weight: bold !important;
+
+            &.kind_standard::before {
+                background-color: #45aeff !important;
+            }
+
+            &.kind_dx {
+                text-shadow: 1px 1px 0 #000, -1px -1px 0 #000,
+                    -1px 1px 0 #000, 1px -1px 0 #000,
+                    0px 1px 0 #000, 0-1px 0 #000,
+                    -1px 0 0 #000, 1px 0 0 #000;
+
+                &::before {
+                    background: rgb(255, 70, 70);
+                    background: linear-gradient(90deg, rgba(255, 70, 70, 1) 0%, rgba(255, 160, 45, 1) 20%, rgba(255, 220, 0, 1) 40%, rgba(154, 201, 72, 1) 60%, rgba(0, 170, 230, 1) 80%);
+                }
+            }
+        }
+    }
+
+    .score_box_middle {
+        border: 1px solid #333;
+        padding: 0.25rem 0.5rem;
+        background-color: #fff;
+        border-radius: 0 5px 0 0;
+        font-weight: bolder;
+    }
+
+    .score_box_footer {
+        border: 1px solid #333;
+        border-top: transparent;
+        font-size: 0.8rem;
+        border-radius: 0 0 5px 5px;
+        background-color: #fff;
+
+        &>.s_b_f_outer {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            &:not(:last-child) {
+                border-bottom: 1px dashed #ccc;
+            }
+
+            &>.s_b_f_inner {
+                flex: 1;
+                text-align: center;
+
+                &>.s_b_f_i_label {
+                    margin-right: 0.5rem;
+                    font-size: 80%;
+                }
+
+                &>.s_b_f_i_value {
+                    font-weight: bold;
+                }
+
+                &>.s_b_f_i_ramp {
+                    display: inline-block;
+                    min-width: 2rem;
+                    padding: 0 0.5rem;
+                    font-weight: bold;
+                    border-radius: 5px;
+                    border: 1px solid #aaa;
+                    transform: scale(0.8);
+                    color: #fff;
+                    text-shadow: #000 1px 1px;
+
+                    &.back {
+                        background-color: #aaa;
+                    }
+
+                    &.ap,
+                    &.app,
+                    &.fdx,
+                    &.fdxp {
+                        background-color: #e57c1a;
+                    }
+
+                    &.fs,
+                    &.fsp {
+                        background-color: #1ec3fa;
+                    }
+
+                    &.fc,
+                    &.fcp {
+                        background-color: #16a613;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.players_info_box {
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    border: 1px solid #333;
+
+    .players_info_label {
+        background-color: #727272;
+        color: #fff;
+        font-family: "游ゴシック", "sans-serif";
+
+        &::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        }
+    }
+
+    .accordion-body {
+        padding: 1rem 0;
+    }
+
+    .players_info_body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .players_info_box_inner {
+            &:not(.player_kokonoclassname_dousiyo) {
+                position: relative;
+                font-size: 1.5rem;
+                flex-grow: 3;
+                width: 100%;
+                padding: 0 0.75rem;
+
+                .player_info_label {
+                    display: flex;
+                    font-size: 0.75rem;
+                    padding-left: 0.5rem;
+                    border-bottom: 1px dashed #333;
+                    letter-spacing: 0.25rem;
+                }
+
+                div {
+                    padding-left: 0.5rem;
+                }
+            }
+
+            &.player_kokonoclassname_dousiyo {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+
+            .players_info_box_inner {
+                &:not(.player_kokonoclassname_dousiyo) {
+                    width: 80%;
+                    max-width: 320px;
+                }
+
+                &.player_kokonoclassname_dousiyo {
+                    line-height: 0;
+                    margin: 0.5rem 0 1rem;
+                }
+            }
+        }
+    }
+}
+
+.collapsing {
+    transition: none;
+    -webkit-transition: none;
+}
+
+.top_nav_bar {
+    color: #111;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #1d1d1d;
+    text-align: center;
+    box-shadow: 0 0 5px #1d1d1d;
+    table-layout: fixed;
+    z-index: 100;
+}
+
+label {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+div.option_column {
+    border-width: 1px 0px;
+    border-bottom-style: dotted;
+    border-bottom-color: #777;
+    border-image: initial;
+    border-left-style: initial;
+    border-left-color: initial;
+    border-right-style: initial;
+    border-right-color: initial;
+    margin: -1px 0 !important;
+    padding: 0.5rem;
+    text-decoration: none;
+    width: 100%;
+
+    .option_label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #666;
+    }
+
+    @media screen and (max-width: 768px) {
+        .inline_radio {
+            display: flex !important;
+            flex-wrap: wrap;
+
+            div.inline_radio_col {
+                flex: 1 !important;
+            }
+
+            label {
+                padding: 0.5rem !important;
+                text-align: center !important;
+            }
+        }
+    }
+
+    .inline_radio {
+        display: inline-block;
+        border-radius: 5px;
+        border: 1px solid #b6b6b6;
+        font-size: 0;
+        user-select: none;
+        --webkit-user-select: none;
+        white-space: nowrap;
+        //width: max-content;
+
+        div.inline_radio_col {
+            display: inline-block;
+        }
+
+        input {
+            display: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        label {
+            border-right: 1px solid #b6b6b6;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            height: 100%;
+            font-size: 0.8rem;
+        }
+
+        div:last-child label {
+            border-right: 0;
+        }
+
+        input:checked+label {
+            background: #d81b60;
+            font-weight: 500;
+            color: #fff;
+        }
+    }
+}
+
+
+.bottom_nav_bar {
+    color: #111;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: #1d1d1d;
+    text-align: center;
+    box-shadow: 10px 0 0 #1d1d1d;
+    z-index: 100;
+    box-shadow: 0 0 5px #1d1d1d;
+
+    .favorite {
+        align-items: center;
+        border: 1px solid rgba(0, 0, 0, .1);
+        border-radius: 5px;
+        color: #999;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        padding: 0 0.5rem;
+        box-shadow: 1px 1px 3px #666;
+        height: 38px;
+        cursor: pointer;
+
+        &[data-checked="true"] {
+            box-shadow: inset 1px 1px #666;
+            background-color: #e3e4e5;
+
+            &::before {
+                color: #ffe13f;
+                text-shadow: 1px 1px #666;
+            }
+        }
+
+        &::before {
+            content: "★";
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-align: center;
+            color: #ccc;
+            padding-right: 0.25rem;
+        }
+
+        &:hover {
+            box-shadow: inset 1px 1px #666;
+            background-color: #e3e4e5;
+        }
+    }
+
+    .backward_list {
+        align-items: center;
+        border: 1px solid rgba(0, 0, 0, .1);
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        padding: 0 0.5rem;
+        box-shadow: 1px 1px 3px #666;
+        height: 38px;
+
+        &::before {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f03a";
+            font-size: 1.125rem;
+            padding-right: 0.25rem;
+        }
+
+        &:hover {
+            box-shadow: inset 1px 1px #666;
+            background-color: #e3e4e5;
+        }
+    }
+
+    .pagetop {
+        opacity: 0.6;
+        width: 4rem;
+        height: 38px;
+        position: relative;
+        border: 1px solid #333;
+        border-radius: 5px;
+        color: #333;
+        cursor: pointer;
+
+        &::before {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f102";
+            font-size: 1.125rem;
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            top: 0;
+            right: 0;
+            left: 0;
+            margin: auto;
+            text-align: center;
+        }
+
+        &::after {
+            content: 'PAGE TOP';
+            font-size: 0.75rem;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: auto;
+            text-align: center;
+        }
+    }
+}
+
+footer {
+    background-color: #eee;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+}

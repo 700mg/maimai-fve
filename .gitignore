@@ -1,0 +1,5 @@
+/node_modules
+/logs/access/*
+/logs/system/*
+/data/*
+package-lock.json

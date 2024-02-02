@@ -1,0 +1,69 @@
+/**************************\
+  Basic Modal Styles
+\**************************/
+
+#__modal {
+    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+}
+
+.__modal-overlay {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.__modal-container {
+    background-color: #fff;
+    padding: 1.5rem;
+    max-width: 500px;
+    max-height: 500px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.__modal-header {
+    text-align: left;
+}
+
+.__modal-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    color: #00449e;
+    box-sizing: border-box;
+}
+
+.__modal-content {
+    margin: 1rem 0 0.5rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border: 1px #333 solid;
+    border-radius: 5px;
+    height: 300px;
+    padding: 0.5rem;
+    overflow-wrap: break-word;
+    color: rgba(0, 0, 0, .8);
+}
+
+.__modal-content>li {
+    list-style: none;
+    margin-bottom: 0.5rem;
+}
+
+.__modal-content>li.warning {
+    color: red;
+    font-weight: bold;
+}
+
+.__modal-footer {
+    font-size: 0.8rem;
+}

@@ -1,0 +1,9 @@
+{
+    "ignore": [
+        "src/*",
+        "public/*",
+        "README",
+        "package*.json",
+        "data/"
+    ]
+}
