@@ -1,5 +1,7 @@
 /node_modules
 /logs/access/*
 /logs/system/*
+!/logs/access/.gitkeep
+!/logs/system/.gitkeep
 /data/*
 package-lock.json
