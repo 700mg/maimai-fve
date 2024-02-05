@@ -9,7 +9,7 @@ const router = require('./bin/router');
     各定数
 ################################################*/
 const PORT = 8081;
-module.exports.host = "http://localhost:8081";
+module.exports.host = "http://maimai-fve.maya2silence.com";
 
 
 process.env.TZ = "Asia/Tokyo";
