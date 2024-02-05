@@ -88,7 +88,7 @@ export default class Body extends React.Component {
                         <div className="score_box_footer text-center">{`取得時間: ${this.props.timestamp}`}</div>
                     </div>
                     <div id="music_list">
-                        <SongBox body={this.props.body} filter={this.state.filter} sort={this.state.sort} />
+                        <SongBox header={this.props.header} body={this.props.body} filter={this.state.filter} sort={this.state.sort} />
                     </div>
                     <nav className='bottom_nav_bar navbar bg-light'>
                         <div className='container-fluid'>

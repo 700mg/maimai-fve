@@ -1,11 +1,10 @@
 import React, { useMemo, useCallback, useState } from 'react';
-import xxh from "xxhashjs";
 
-const SongBox = (({ body, filter, sort }) => {
+const SongBox = (({ header, body, filter, sort }) => {
     // ソートを早くするために土台を作っておく
     const sort_base = body.map((e, i) => {
         let a = e.split("\t");
-        return [i, Math.round((a[4] - a[5]) * 10000), Number(a[1].replace("+", ".7"))];
+        return [i, Math.round((a[4].replace(/,/g, "") - a[6].replace(/,/g, "")) * 10000), Number(a[1].replace("+", ".7"))];
     });
 
     // ソート基準 [デフォ,差分,レベル]
@@ -17,7 +16,7 @@ const SongBox = (({ body, filter, sort }) => {
 
     const organize = () => {
         let v = sort.order ? sort_value[sort.key] : sort_value[sort.key].reverse();
-        return v.map((i) => <ScoreBoxHeader key={i} body={body[i].split("\t")} filter={filter} />);
+        return v.map((i) => <ScoreBoxHeader key={i} type={header[4] == "達成率"} body={body[i].split("\t")} filter={filter} />);
     };
 
     return (
@@ -28,7 +27,7 @@ const SongBox = (({ body, filter, sort }) => {
 });
 
 // score_boxの外側の更に外側
-const ScoreBoxHeader = React.memo(({ body, filter }) => {
+const ScoreBoxHeader = React.memo(({ type, body, filter }) => {
     // スコアの勝ち負け引きを数字で返す関数
     const getStatus = useCallback(() => {
         let a = parseFloat(param.s_score), b = parseFloat(param.r_score);
@@ -49,10 +48,10 @@ const ScoreBoxHeader = React.memo(({ body, filter }) => {
         h_lv: body[1],      // 譜面レベル
         h_diff: body[2],    // 難易度 (expert, master etc.)
         h_kind: body[3],    // 譜面区分 (dx, standard)
-        s_score: body[4],   // 自分のスコア
-        s_ramp: body[5].split("/"),    // 自分のランプ
-        r_score: body[6],   // 相手のスコア
-        r_ramp: body[7].split("/"),    // 相手のランプ
+        s_score: body[4].replace(/,/g, ""), // 自分のスコア
+        s_ramp: body[5].split("/"),         // 自分のランプ
+        r_score: body[6].replace(/,/g, ""), // 相手のスコア
+        r_ramp: body[7].split("/"),         // 相手のランプ
     };
 
     // 都度計算するのはコストがかかるので、事前に条件に合致するか計算しておく
@@ -89,7 +88,7 @@ const ScoreBoxHeader = React.memo(({ body, filter }) => {
 
     // hookに登録
     const [f_status] = useState(filter_status);
-    const _ScoreBox = useMemo(() => <ScoreBox param={param} isHidden={isHidden()} />, [isHidden()]);
+    const _ScoreBox = useMemo(() => <ScoreBox type={type} param={param} isHidden={isHidden()} />, [isHidden()]);
 
     // viewを返す
     return (
@@ -98,7 +97,7 @@ const ScoreBoxHeader = React.memo(({ body, filter }) => {
 });
 
 // score_boxの外側
-const ScoreBox = React.memo(({ param, isHidden }) => {
+const ScoreBox = React.memo(({ type, param, isHidden }) => {
     // スコアの勝ち負け引きを数字で返す関数
     const getStatus = useCallback(() => {
         let a = parseFloat(param.s_score), b = parseFloat(param.r_score);
@@ -116,18 +115,18 @@ const ScoreBox = React.memo(({ param, isHidden }) => {
     // viewを返す
     return (
         <div className={`score_box ${rBattle()} ${_isHidden()}`}>
-            <ScoreBody title={param.title} h_lv={param.h_lv} h_diff={param.h_diff} h_kind={param.h_kind}
+            <ScoreBody type={type} title={param.title} h_lv={param.h_lv} h_diff={param.h_diff} h_kind={param.h_kind}
                 s_score={param.s_score} s_ramp={param.s_ramp} r_score={param.r_score} r_ramp={param.r_ramp} />
         </div>
     );
 });
 
 // score_boxの内側
-const ScoreBody = React.memo(({ title, h_diff, h_lv, h_kind, s_score, s_ramp, r_score, r_ramp }) => {
+const ScoreBody = React.memo(({ type, title, h_diff, h_lv, h_kind, s_score, s_ramp, r_score, r_ramp }) => {
     // スコアの差分を取得
     const getDiffVal = () => {
         let a = Math.round((s_score - r_score) * 10000) / 10000;
-        return a == 0 ? "Draw" : (a > 0 ? "+" : "") + `${a}%`;
+        return a == 0 ? "Draw" : (a > 0 ? "+" : "") + a;
     };
 
     const renameRamp = (t) => {
@@ -159,16 +158,16 @@ const ScoreBody = React.memo(({ title, h_diff, h_lv, h_kind, s_score, s_ramp, r_
                     {/* 自分(登録者) */}
                     <div className="s_b_f_inner">
                         <span className="s_b_f_i_label">YOU</span>
-                        <span className="s_b_f_i_value">{`${s_score}%`}</span>
+                        <span className="s_b_f_i_value">{`${s_score}${type ? "%" : ""}`}</span>
                     </div>
                     {/* 差分 */}
                     <div className="s_b_f_inner">
-                        <span className="s_b_f_i_value">{getDiffVal()}</span>
+                        <span className="s_b_f_i_value">{`${getDiffVal()}${type ? "%" : ""}`}</span>
                     </div>
                     {/* ライバル */}
                     <div className="s_b_f_inner">
                         <span className="s_b_f_i_label">RIVAL</span>
-                        <span className="s_b_f_i_value">{`${r_score}%`}</span>
+                        <span className="s_b_f_i_value">{`${r_score}${type ? "%" : ""}`}</span>
                     </div>
                 </div>
                 <div className="s_b_f_outer">
