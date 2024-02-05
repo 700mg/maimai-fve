@@ -5,3 +5,4 @@
 !/logs/system/.gitkeep
 /data/*
 package-lock.json
+mix-manifest.json
